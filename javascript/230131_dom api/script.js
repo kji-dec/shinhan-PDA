@@ -133,21 +133,41 @@
 //     console.log(event.target);
 // }
 
-// DOM API 실습
-// 1
-function sum(event) {
-    let num1 = Number(document.getElementById('num1').value);
-    let num2 = Number(document.getElementById('num2').value);
-    event.target.insertAdjacentHTML('afterEnd',`<div>${num1 + num2}</div>`);
+// // DOM API 실습
+// // 1
+// function sum(event) {
+//     let num1 = Number(document.getElementById('num1').value);
+//     let num2 = Number(document.getElementById('num2').value);
+//     event.target.insertAdjacentHTML('afterEnd',`<div>${num1 + num2}</div>`);
+// }
+
+// // 2
+// function plus() {
+//     let number = document.getElementById('number');
+//     number.innerText = Number(number.innerText) + 1;
+// }
+
+// function minus() {
+//     let number = document.getElementById('number');
+//     number.innerText = Number(number.innerText) - 1;
+// }
+
+// DOM API 실습 - 세계 시계 만들기
+let timer;
+const TIMEZONE = {
+    'london': 'Europe/London',
+    'newyork': 'America/New_York',
+    'seoul': 'Asia/Seoul'
 }
 
-// 2
-function plus() {
-    let number = document.getElementById('number');
-    number.innerText = Number(number.innerText) + 1;
+function setTimeByCountry(country){
+    let time = document.getElementById('time');
+    let timeNow = new Date().toLocaleString('ko-KR', {timeZone: TIMEZONE[country]});
+    time.innerText = timeNow;
 }
 
-function minus() {
-    let number = document.getElementById('number');
-    number.innerText = Number(number.innerText) - 1;
+function setTime(event){
+    clearInterval(timer);
+    setTimeByCountry(event.target.id); // 버튼 클릭 시 바로 시간이 뜨게 하기 위함
+    timer = setInterval(setTimeByCountry, 1000, event.target.id);
 }
