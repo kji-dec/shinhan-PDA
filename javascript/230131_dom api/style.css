@@ -1,0 +1,11 @@
+#firstBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 200px;
+    height: 200px;
+    background-color: bisque;
+    border: solid 1px black;
+    cursor: pointer;
+}
