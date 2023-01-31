@@ -754,12 +754,186 @@
 // 	city: 'Seoul'
 // };
 
-// rest syntax
-let seoulUser = {
-	name: 'Kim',
-	age: 20,
-	city: 'Seoul',
+// // rest syntax
+// let seoulUser = {
+// 	name: 'Kim',
+// 	age: 20,
+// 	city: 'Seoul',
+// };
+// const {city, ...user} = seoulUser;
+// console.log(city); // Seoul
+// console.log(user); // {name: 'Kim', age: 20}
+
+// // destructuring _ 230131
+// let user = {
+// 	name: 'Kim',
+// 	age: 20,
+// };
+
+// const showMsg = (user) => {
+// 	const {name, age, mail = 'abc@kim.com'} = user;
+// 	alert(`저는 ${name} 이고, ${age} 살입니다. 이메일은 ${mail}입니다.`);
+// }
+
+// showMsg(user);
+
+// // const showMsg = {{name, age}} => {name} // 바닐라 자바스크립트에서는 안되지만 나중에 프레임워크에서 이런식으로 사용 가능
+
+// // 객체가 여러개인 경우
+// let user1 = {
+// 	name: 'Kim',
+// 	age: 20
+// };
+// let user2 = {
+// 	name: 'Park',
+// 	age: 25
+// };
+
+// const showMsg = (user) => {
+// 	const { name: userName1 } = user1; // 구조 분해하면서 이름 변경
+// 	const { name: userName2 } = user2; // 구조 분해하면서 이름 변경
+// 	alert(`${userName1}, ${userName2}`);
+// }
+// showMsg(user1); // Kim, Park
+
+// let user = {
+// 	name: 'Kim',
+// 	age: 20,
+// 	address: {city:'Seoul', street: 'Dongdaemun'}
+// };
+
+// const showMsg = (user) => {
+// 	const { city, street } = user.address; // 내부 객체까지 비구조할당
+// 	alert(`저는 ${city}시 ${street}에 살아요.`);
+// }
+// showMsg(user); // 저는 Seoul시 Dongdaemun에 살아요.
+
+// // spread -> 새로운 값 생성하기 위한 것
+// let user = {
+// 	name: 'Kim',
+// 	age: 20,
+// };
+
+// let busanUser = {
+// 	...user, // name: 'Kim', age: 20
+// 	city: 'Busan',
+// };
+
+// let seoulUser = {
+// 	user, // user: {name: 'Kim', age: 20}
+// 	city: 'Seoul',
+// };
+
+// // spread in array
+// let users = ['Kim', 'Park'];
+// let newUsers = [...users, 'Lee']; // 배열이 'Kim', 'Park' 이라는 데이터 형태로 펼쳐서 들어감
+// console.log(newUsers); // ['Kim', 'Park', 'Lee']
+
+// let users = ['Kim', 'Park'];
+// let newUsers = [users, 'Lee']; // 배열 그대로 들어감
+// console.log(newUsers); // [['Kim', 'Park'], 'Lee']
+
+// // rest -> 구조분해하면서 데이터를 가져오기 위한 것
+// let seoulUser = {
+// 	name: 'Kim',
+// 	age: 20,
+// 	city: 'Seoul'
+// };
+// const {city, ...user} = seoulUser; // city는 따로 받아오고 나머지는 user로 받겠다
+// console.log(city); // Seoul
+// console.log(user); // {name: 'Kim', age: 20}
+
+// // rest in array
+// let users = ['Kim', 'Park', 'Lee'];
+// const [name1, ...rest] = users;
+// console.log(name1); // 'Kim'
+// console.log(rest); // ['Park', 'Lee'] (배열)
+
+// // spread, rest in function
+// const sum = (...num) => { // like python *args. this called rest param.
+// 	return num.reduce((sum, current) => sum + current, 0);
+// }
+// let result = sum(1, 2, 3, 4, 5);
+// console.log(result); // 15
+
+// // put array into rest param -> bad result
+// const sum = (...num) => {
+// 	return num.reduce((sum, current) => sum + current, 0);
+// }
+// let numbers = [1, 2, 3, 4, 5];
+// let result = sum(numbers);
+// console.log(result); // 이상하게 작동
+
+// // should use spread syntax
+// const sum = (...num) => {
+// 	return num.reduce((sum, current) => sum + current, 0);
+// }
+// let numbers = [1, 2, 3, 4, 5];
+// let result = sum(...numbers); // 배열 형태가 아니라, 숫자들이 들어감 1, 2, 3, 4, 5
+// console.log(result); // 15
+
+// // 연습문제1 - destructuring
+// // 1
+// let students = [
+// 	{ id: 1, name: 'Kim', score: { math: 50, english: 70 } },
+// 	{ id: 2, name: 'Park', score: { math: 80, english: 60 } },
+// 	{ id: 3, name: 'Lee', score: { math: 70, english: 50 } },
+// ];
+// const stuArr = students.filter(student => (student.score.math + student.score.english >= 140));
+// console.log(stuArr);
+
+// // 2
+// let students2 = [
+// 	{ id: 1, name: 'Kim', score: { math: 50, english: 70, science: 60 } },
+// 	{ id: 2, name: 'Kim', score: { math: 80, english: 60, science: 100 } },
+// 	{ id: 3, name: 'Lee', score: { math: 70, english: 50, science: 40 } },
+// ];
+// const stuArr2 = students2.reduce((prev, student) => prev + student.score.math + student.score.english + student.score.science, 0);
+// let sum = students2.reduce((sum, current) => sum + Object.values(current.score).reduce((sum, current) => sum + current, 0), 0);
+// console.log(stuArr2);
+
+// // 3
+// let students3 = [
+// 	{ id: 1, name: 'Kim', score: { math: 50, english: 70 } },
+// 	{ id: 2, name: 'Kim', score: { math: 80, english: 60 } },
+// 	{ id: 3, name: 'Lee', score: { math: 70, english: 50 } },
+// ]
+// students3 = students3.map(student => ({...student, name: 'Park'}));
+// console.log(students3);
+
+// // 4
+// let students4 = [
+// 	{ id: 1, name: 'Kim', score: { math: 50, english: 70, korean: 30, physics: 60 } },
+// 	{ id: 2, name: 'Kim', score: { math: 80, english: 60, korean: 40, physics: 40 } },
+// 	{ id: 3, name: 'Lee', score: { math: 70, english: 50, korean: 50, physics: 80 } },
+// ];
+// const filteredStudents = students4.filter(student => student.name === 'Kim').map(student => ({...student, score: {...student.score, science: 100, history: 100,}}));
+// console.log(filteredStudents);
+
+// // 연습문제2 - destructuring 2
+// // 1
+// let students = [
+// 	{ id: 1, name: 'Kim', score: { math: 50, english: 70 } },
+// 	{ id: 2, name: 'Park', score: { math: 80, english: 60 } },
+// 	{ id: 3, name: 'Lee', score: { math: 70, english: 50 } },
+// ];
+// students = students.map(student => {
+// 	const { math, english } = student.score;
+// 	return {...student, score: {...student.score, sum: math + english}};
+// });
+// console.log(students);
+
+// 2
+let students2 = [
+	{ id: 1, name: 'Kim', score: { math: 50, english: 70 } },
+	{ id: 2, name: 'Park', score: { math: 80, english: 60 } },
+	{ id: 3, name: 'Lee', score: { math: 70, english: 50 } },
+	{ id: 4, name: 'Choi', score: { math: 70, english: 50 } },
+];
+let sumScore = (...students) => {
+	return students.reduce((sum, student) => {
+		const { math, english } = student.score;
+		return sum + math + english;
+	}, 0);
 };
-const {city, ...user} = seoulUser;
-console.log(city); // Seoul
-console.log(user); // {name: 'Kim', age: 20}
+console.log(sumScore(...students2));
