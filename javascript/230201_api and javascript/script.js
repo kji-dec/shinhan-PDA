@@ -267,26 +267,26 @@ async function getPosts() {
     return data;
 }
 
-async function displayPosts() {
-    let page = document.getElementsByTagName('body')[0];
-    let data = await (getPosts());
-    data.forEach(element => {
-        page.insertAdjacentHTML("beforeend", `
-            <h1>${element.title}</h1>
-            <div>${element.body}</div>
-            <button onclick="deletePost(${element.id})">삭제</button>
+async function insertPosts() {
+    let posts = await getPosts();
+    posts.forEach(post => {
+        document.body.insertAdjacentHTML("beforeend", `
+            <div id=${post.id}>
+                <h1>${post.title}</h1>
+                <p>${post.body}</p>
+                <button onclick="deletePost(${post.id})">삭제</button>
+            </div>
         `)
     });
 }
 
-displayPosts();
+insertPosts();
 
 async function deletePost(id) {
     let response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
         method: 'DELETE'
     });
-    let data = await response.json();
-    console.log(data);
+    return response.status;
 }
 
 async function getPost(id) {
@@ -295,7 +295,7 @@ async function getPost(id) {
     return data;
 }
 
-async function setInput(id) {
+async function insertPost(id) {
     let data = await getPost(id);
     let title = document.getElementById("title");
     let body = document.getElementById("body");
@@ -303,7 +303,7 @@ async function setInput(id) {
     body.innerText = data.body;
 }
 
-async function sendPutPost(post, id) {
+async function updatePost(post, id) {
     let response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
         method: 'PUT',
         body: JSON.stringify(post),
@@ -312,18 +312,19 @@ async function sendPutPost(post, id) {
         },
     });
     let data = await response.json();
-    console.log(data);
+    return data;
 }
 
-async function putPost() {
+async function submitPost(id) {
     let post = {
         title: document.getElementById('title').value,
         body: document.getElementById('body').value,
     }
-    await sendPutPost(post, 1);
+    let result = await updatePost(post, id);
+    console.log(result);
 }
 
-setInput(1);
+insertPost(1);
 
 WEATHER_LOCATION = {
     'seoul': {
