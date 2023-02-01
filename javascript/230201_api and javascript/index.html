@@ -1,0 +1,21 @@
+<html>
+<head>
+    <title>타이틀</title>
+</head>
+<body>
+    <div id="menu" onclick="showWeather(event)">
+        <button id="seoul">서울</button>
+        <button id="newyork">뉴욕</button>
+        <button id="london">런던</button>
+    </div>
+    <div id="weather"></div>
+    <hr>
+    <div style="display: flex; flex-direction: column;">
+        <input id="title" placeholder="제목"/>
+        <textarea id="body" placeholder="내용"></textarea>
+    </div>
+    <button onclick="putPost()">수정</button>
+    <hr>
+</body>
+<script src="script.js"></script>
+</html>
