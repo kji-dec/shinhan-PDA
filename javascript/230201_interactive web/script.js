@@ -82,56 +82,118 @@
 //     }
 // })
 
-// 연습문제
+// // 연습문제
+// // 1
+// let id = document.getElementById('id');
+// let pw = document.getElementById('pw');
+
+// const onFocus = (event) => {
+//     event.target.style.width = parseInt(event.target.style.width) * 2 + "px";
+//     event.target.style.height = parseInt(event.target.style.height) * 2 + "px";
+// }
+
+// const onBlur = (event) => {
+//     event.target.style.width = parseInt(event.target.style.width) / 2 + "px";
+//     event.target.style.height = parseInt(event.target.style.height) / 2 + "px";
+// }
+
+// id.addEventListener('focus', onFocus);
+// id.addEventListener('blur', onBlur);
+// pw.addEventListener('focus', onFocus);
+// pw.addEventListener('blur', onBlur);
+
+// // 2
+// const incSize = (event) => {
+//     if (event.key === "Backspace"){
+//         event.target.style.width = parseInt(event.target.style.width) - 10 + "px";
+//     }
+// }
+
+// const decSize = (event) => {
+//     if (event.key.length === 1) {
+//         event.target.style.width = parseInt(event.target.style.width) + 10 + "px";
+//     }
+// }
+
+// id.addEventListener('keydown', incSize);
+// id.addEventListener('keydown', decSize);
+
+// pw.addEventListener('keydown', incSize);
+// pw.addEventListener('keydown', decSize);
+
+// // 3
+// const colorBlue = (event) => {
+//     event.target.style.backgroundColor = "blue";
+// }
+
+// const colorWhite = (event) => {
+//     event.target.style.backgroundColor = null;
+// }
+
+// id.addEventListener('mousedown', colorBlue);
+// id.addEventListener('mouseup', colorWhite);
+
+// pw.addEventListener('mousedown', colorBlue);
+// pw.addEventListener('mouseup', colorWhite);
+
+// const moveImage = (img, x, y) => {
+//     img.style.left = x - (img.offsetWidth / 2) + 'px';
+//     img.style.top = y - (img.offsetHeight / 2) + 'px';
+// }
+
+// const onMouseDown = (event) => { // event -> 마우스를 처음 클릭했을 때
+//     const img = event.target;
+//     img.style.position = 'absolute';
+
+//     const moveTargetByEvent = (e) => moveImage(img, e.pageX, e.pageY);
+
+//     document.addEventListener('mousemove', moveTargetByEvent);
+
+//     img.onmouseup = () => {
+//         document.removeEventListener('mousemove', moveTargetByEvent);
+//         img.onmouseup = null;
+//     }
+// }
+
+// const next = () => {
+//     let items = document.getElementsByClassName('item');
+//     for (let item of items) {
+//         item.style.transform = `translate(-100%)`; // 해당 요소 크기만큼 왼쪽으로 이동
+//     }
+// }
+
+// const transition = (event) => {
+//     event.target.classList.add('animate');
+// }
+
+// 실습
 // 1
-let id = document.getElementById('id');
-let pw = document.getElementById('pw');
-
-const onFocus = (event) => {
-    event.target.style.width = parseInt(event.target.style.width) * 2 + "px";
-    event.target.style.height = parseInt(event.target.style.height) * 2 + "px";
+const showModal = () => {
+    let modal = document.getElementById('modal');
+    modal.style.display = 'flex';
+    modal.classList.add('open');
 }
 
-const onBlur = (event) => {
-    event.target.style.width = parseInt(event.target.style.width) / 2 + "px";
-    event.target.style.height = parseInt(event.target.style.height) / 2 + "px";
+const closeModal = () => {
+    let modal = document.getElementById('modal');
+    modal.classList.add('close');
+    setTimeout(() => modal.style.display = 'none', 1999);
 }
-
-id.addEventListener('focus', onFocus);
-id.addEventListener('blur', onBlur);
-pw.addEventListener('focus', onFocus);
-pw.addEventListener('blur', onBlur);
 
 // 2
-const incSize = (event) => {
-    if (event.key === "Backspace"){
-        event.target.style.width = parseInt(event.target.style.width) - 10 + "px";
+let index = 0;
+const next = () => {
+    index += 1;
+    for (let item of items) {
+        console.log(item.style.transform)
+        item.style.transform = `translate(${-100 * index}%)`
     }
 }
 
-const decSize = (event) => {
-    if (event.key.length === 1) {
-        event.target.style.width = parseInt(event.target.style.width) + 10 + "px";
+const prev = () => {
+    index -= 1;
+    let items = document.getElementsByClassName('item');
+    for (let item of items) {
+        item.style.transform = `translate(${-100 * index}%)`;
     }
 }
-
-id.addEventListener('keydown', incSize);
-id.addEventListener('keydown', decSize);
-
-pw.addEventListener('keydown', incSize);
-pw.addEventListener('keydown', decSize);
-
-// 3
-const colorBlue = (event) => {
-    event.target.style.backgroundColor = "blue";
-}
-
-const colorWhite = (event) => {
-    event.target.style.backgroundColor = null;
-}
-
-id.addEventListener('mousedown', colorBlue);
-id.addEventListener('mouseup', colorWhite);
-
-pw.addEventListener('mousedown', colorBlue);
-pw.addEventListener('mouseup', colorWhite);
