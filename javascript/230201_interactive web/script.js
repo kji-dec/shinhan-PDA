@@ -20,41 +20,118 @@
 //     highlight(event.target);
 // })
 
-// 연습문제 - 이벤트 심화
+// // 연습문제 - 이벤트 심화
+// // 1
+// const TIMEZONE = {
+//     'london': 'Europe/London',
+//     'newyork': 'America/New_York',
+//     'seoul': 'Asia/Seoul'
+// }
+// let timer;
+
+// function setTimeByCountry(country) {
+//     let now = new Date().toLocaleString('ko-KR', { timeZone: TIMEZONE[country] })
+//     let currentTime = document.getElementById('currentTime');
+//     currentTime.innerText = now;
+// }
+
+// function setTime(event) {
+//     clearInterval(timer);
+//     setTimeByCountry(event.target.id);
+//     timer = setInterval(setTimeByCountry, 1000, event.target.id);
+// }
+
+// // 2
+// let highlightedMenu;
+// let menu = document.getElementById('menu');
+// const highlight = (element) => {
+//     if (highlightedMenu){
+//         highlightedMenu.classList.remove('highlight');
+//     }
+//     element.classList.add('highlight');
+//     return element;
+// }
+
+// menu.addEventListener('click', (event) => {
+//     if(event.target.tagName !== 'BUTTON'){
+//         return;
+//     }
+//     highlightedMenu = highlight(event.target);
+// })
+
+// let id = document.getElementById('id');
+// let pw = document.getElementById('pw');
+
+// const onFocus = (event) => {
+//     event.target.style.backgroundColor = 'bisque';
+// }
+
+// const onBlur = (event) => {
+//     event.target.style.backgroundColor = null;
+// }
+
+// id.addEventListener('focus', onFocus);
+// pw.addEventListener('focus', onFocus);
+
+// id.addEventListener('blur', onBlur);
+// pw.addEventListener('blur', onBlur);
+
+// pw.addEventListener('keydown', (event) => {
+//     if (event.key === "Enter"){
+//         alert("enter key pressed");
+//     }
+// })
+
+// 연습문제
 // 1
-const TIMEZONE = {
-    'london': 'Europe/London',
-    'newyork': 'America/New_York',
-    'seoul': 'Asia/Seoul'
-}
-let timer;
+let id = document.getElementById('id');
+let pw = document.getElementById('pw');
 
-function setTimeByCountry(country) {
-    let now = new Date().toLocaleString('ko-KR', { timeZone: TIMEZONE[country] })
-    let currentTime = document.getElementById('currentTime');
-    currentTime.innerText = now;
+const onFocus = (event) => {
+    event.target.style.width = parseInt(event.target.style.width) * 2 + "px";
+    event.target.style.height = parseInt(event.target.style.height) * 2 + "px";
 }
 
-function setTime(event) {
-    clearInterval(timer);
-    setTimeByCountry(event.target.id);
-    timer = setInterval(setTimeByCountry, 1000, event.target.id);
+const onBlur = (event) => {
+    event.target.style.width = parseInt(event.target.style.width) / 2 + "px";
+    event.target.style.height = parseInt(event.target.style.height) / 2 + "px";
 }
+
+id.addEventListener('focus', onFocus);
+id.addEventListener('blur', onBlur);
+pw.addEventListener('focus', onFocus);
+pw.addEventListener('blur', onBlur);
 
 // 2
-let highlightedMenu;
-let menu = document.getElementById('menu');
-const highlight = (element) => {
-    if (highlightedMenu){
-        highlightedMenu.classList.remove('highlight');
+const incSize = (event) => {
+    if (event.key === "Backspace"){
+        event.target.style.width = parseInt(event.target.style.width) - 10 + "px";
     }
-    element.classList.add('highlight');
-    return element;
 }
 
-menu.addEventListener('click', (event) => {
-    if(event.target.tagName !== 'BUTTON'){
-        return;
+const decSize = (event) => {
+    if (event.key.length === 1) {
+        event.target.style.width = parseInt(event.target.style.width) + 10 + "px";
     }
-    highlightedMenu = highlight(event.target);
-})
+}
+
+id.addEventListener('keydown', incSize);
+id.addEventListener('keydown', decSize);
+
+pw.addEventListener('keydown', incSize);
+pw.addEventListener('keydown', decSize);
+
+// 3
+const colorBlue = (event) => {
+    event.target.style.backgroundColor = "blue";
+}
+
+const colorWhite = (event) => {
+    event.target.style.backgroundColor = null;
+}
+
+id.addEventListener('mousedown', colorBlue);
+id.addEventListener('mouseup', colorWhite);
+
+pw.addEventListener('mousedown', colorBlue);
+pw.addEventListener('mouseup', colorWhite);
