@@ -1,0 +1,55 @@
+body {
+    margin: 0;
+}
+
+#createModal {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+#updateModal {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+#showModal {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+#item {
+    width: 300px;
+    height: 300px;
+    background-color: lightblue;
+    display: flex;
+    justify-content: center;
+    vertical-align: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#form {
+    width: 300px;
+    height: 300px;
+    background-color: lightblue;
+    display: flex;
+    justify-content: center;
+    vertical-align: center;
+    align-items: center;
+    flex-direction: column;
+}
