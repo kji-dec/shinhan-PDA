@@ -59,7 +59,7 @@ async function insertCategories() {
     let position = document.getElementById('categories');
     categories.forEach(category => {
         position.insertAdjacentHTML("beforeend", `
-            <button onclick="getCategoryArticles(${category.id})">${category.name}</button>
+            <option value="${category.id}"">${category.name}</button>
         `);
     });
 }
@@ -78,9 +78,10 @@ async function deleteArticle(id) {
     }
 }
 
-async function getCategoryArticles(categoryId) {
+async function getCategoryArticles(category) {
+    let categoryId = category.value;
     let result = await getArticles();
-    articles = result.filter(article => article.category.id === categoryId);
+    articles = result.filter(article => article.category.id === Number(categoryId));
     let list = document.getElementById('list');
     let listArticles = '';
     articles.forEach(article => {
