@@ -1,5 +1,12 @@
 const SERVER_URL = 'http://127.0.0.1:8000'
 
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
 async function postArticle(article) {
     let response = await fetch(`${SERVER_URL}/blog/article`, {
         method: 'POST',
@@ -48,6 +55,7 @@ async function insertArticles(){
         document.body.insertAdjacentHTML("beforeend", `
             <div id="${article.id}">
                 <h1>${article.title}</h1>
+                <h2>작성자: ${article.author}</h2>
                 <p>${article.content}</p>
                 <button onclick="deleteArticle(${article.id})">삭제</button>
             </div>
@@ -56,8 +64,12 @@ async function insertArticles(){
 }
 
 async function deleteArticle(id) {
+    let token = getCookie('access_token');
     let response = await fetch(`${SERVER_URL}/blog/article/${id}`, {
         method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
     });
     if (response.status === 204) {
         let post = document.getElementById(id);

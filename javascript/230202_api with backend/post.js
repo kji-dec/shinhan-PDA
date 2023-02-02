@@ -1,9 +1,20 @@
 const SERVER_URL = 'http://127.0.0.1:8000'
 
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
 async function postImage(article) {
+    let token = getCookie('access_token');
     let response = await fetch(`${SERVER_URL}/blog/article`, {
         method: 'POST',
         body: article, // formdata는 json화할 필요 없음!
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
     });
     let data = await response.json();
     return data
