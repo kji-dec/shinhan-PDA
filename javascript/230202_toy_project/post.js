@@ -25,7 +25,7 @@ async function submitArticle() {
     let formData = new FormData(form);
     let result = await postArticle(formData);
     console.log(result);
-    document.location.reaload();
+    location.reload();
 }
 
 async function postCategory(category) {
@@ -69,7 +69,7 @@ async function updateArticle(event) {
     let formData = new FormData(form);
     let result = await putArticle(event.target.id, formData);
     console.log(result);
-    document.location.reaload();
+    location.reload();
 }
 
 async function getArticle(id) {
@@ -82,7 +82,7 @@ async function setArticle(id) {
     let article = await getArticle(id);
     document.getElementById("updateTitle").value = article.title;
     document.getElementById("updateContent").innerText = article.content;
-    document.getElementById("updateCategory").value = article.category.name;
+    document.getElementById("updateCategory").value = article.category.id;
 
 }
 
