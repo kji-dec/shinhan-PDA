@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reactivity</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" @keyup.enter="setName($event)"/><br>
+        <p>{{ myName }}</p>
+        <button @click="increase($event, myNum)">더하기</button>
+        <button @click.once="decrease($event, myNum)">빼기</button>
+        <div @click="increase($event, 20)"><br>
+            <p @click.stop="some">결과: {{ number }}</p><br>
+        </div>
+    </div>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    number: 100,
+                    myNum: 11,
+                    myName: '',
+                };
+            },
+            methods: {
+                increase(ev, num) {
+                    this.number += num;
+                },
+                decrease(ev, num) {
+                    this.number -= num;
+                },
+                some() {
+                    console.log('some');
+                },
+                setName(event) {
+                    this.myName = event.target.value;
+                },
+            },
+        }).mount('#app');
+    </script>
+</body>
+
+</html>
