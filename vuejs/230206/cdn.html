@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue시작</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <!-- <div id="app">
+        <h1>안녕하세요 {{ name }}</h1>
+        <input type="text" v-model="name" placeholder="이름을 입력하세요."/>
+    </div> -->
+    <div id="app">
+        <input type="text" v-model="age" />
+        <h1 v-once>저는 {{ age }}살 입니다.</h1>
+        <h1>이후 나이는 {{ age }}입니다.</h1>
+        <p 
+            :[att]="text" 
+            id="me" 
+            class="me"
+            style="color:coral"
+        >{{ aboutMe }}</p>
+        <p v-bind="propertyObj">{{ aboutMe }}</p>
+        <div v-html="content"></div>
+        <button :disabled="disabled">확인</button>
+        <button v-on:click="addAge">나이증가</button>
+        <a href="" v-on:click.prevent="addAge">나이증가</a>
+    </div>
+    <script>
+        // const instance = Vue.createApp({
+        //     data() {
+        //         return {
+        //             name: ''
+        //         }
+        //     }
+        // });
+        // console.log(instance);
+        // instance.mount('#app');
+        const instance = Vue.createApp({
+            // template: `
+            //     <input type="text" v-model="age" />
+            //     <p>저는 {{ age }}살 입니다.</p>
+            //     <button v-on:click="addAge">나이증가</button>
+            // `,
+            data() {
+                return {
+                    propertyObj: {
+                        id: 'jingnii',
+                        class: 'jingnii',
+                        style: 'color: coral',
+                    },
+                    disabled: true,
+                    age: 22,
+                    att: 'title',
+                    text: 'v-bind test',
+                    content: '<strong>hello</strong>',
+                };
+            },
+            computed: {
+                aboutMe() {
+                    return `저는 ${this.age}살입니다.`;
+                },
+            },
+            methods: {
+                addAge() {
+                    this.age++;
+                },
+            },
+            created() {
+                console.log('created');
+            },
+            mounted() {
+                console.log('mounted');
+            },
+        }).mount('#app');
+    </script>
+</body>
+
+</html>
