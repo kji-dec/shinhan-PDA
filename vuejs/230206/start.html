@@ -16,9 +16,15 @@
     <script>
         // console.log(window.document.children[0].children[1].textContent)
         // window.document.children[0].children[1].textContent = 'newText'
+        const body = document.querySelector('body');
         const input = document.querySelector('input');
         const button = document.querySelector('button');
         const sentence = document.querySelector('p');
+        const newTag = document.createElement('div');
+
+        console.dir(newTag);
+
+        body.insertBefore(newTag, input);
 
         input.style.border = "2px solid red";
         button.addEventListener('click', showName);
