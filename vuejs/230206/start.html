@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <style>
+        /* p {
+            display: none;
+            visibility: hidden;
+        } */
+    </style>
+</head>
+
+<body>
+    <input type="text" placeholder="이름">
+    <button>확인</button>
+    <p>안녕하세요.</p>
+    <script>
+        // console.log(window.document.children[0].children[1].textContent)
+        // window.document.children[0].children[1].textContent = 'newText'
+        const input = document.querySelector('input');
+        const button = document.querySelector('button');
+        const sentence = document.querySelector('p');
+
+        input.style.border = "2px solid red";
+        button.addEventListener('click', showName);
+        
+        function showName() {
+            sentence.style.visibility = 'true';
+            sentence.textContent = `안녕하세요, ${input.value}님.`;
+        }
+    </script>
+</body>
+
+</html>
