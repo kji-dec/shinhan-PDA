@@ -61,10 +61,16 @@
         <p class="text" :class="{blue: text3}" @click="clickedText('blue')">세번째 글입니다.</p>
     </div> -->
 
-    <div id="app">
+    <!-- <div id="app">
         <p class="text" :class="text1Css" @click="clickedText('red')">첫번째 글입니다.</p>
         <p class="text" :class="text2Css" @click="clickedText('green')">두번째 글입니다.</p>
         <p class="text" :class="text3Css" @click="clickedText('blue')">세번째 글입니다.</p>
+    </div> -->
+
+    <div id="app">
+        <p :class="['text', {red: text1}]" @click="clickedText('red')">첫번째 글입니다.</p>
+        <p :class="['text', {green: text2}]" @click="clickedText('green')">두번째 글입니다.</p>
+        <p :class="['text', {blue: text3}]" @click="clickedText('blue')">세번째 글입니다.</p>
     </div>
     <script>
         Vue.createApp({
@@ -75,11 +81,11 @@
                     text3: false,
                 }
             },
-            computed: {
-                text1Css() { return { red: this.text1 } },
-                text2Css() { return { green: this.text2 } },
-                text3Css() { return { blue: this.text3 }; },
-            },
+            // computed: {
+            //     text1Css() { return { red: this.text1 } },
+            //     text2Css() { return { green: this.text2 } },
+            //     text3Css() { return { blue: this.text3 }; },
+            // },
             methods: {
                 clickedText(color) {
                     if (color === 'red') {
