@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style Binding</title>
+    <style>
+        #app {
+            box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.26);
+            background-color: #e4e4e4;
+            margin: 20px;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .text {
+            width: 150px;
+            height: 100px;
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+
+        .red {
+            border-color: red;
+        }
+
+        .green {
+            border-color: green;
+        }
+
+        .blue {
+            border-color: blue;
+        }
+    </style>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+
+<body>
+    <!-- <div id="app">
+        <p class="text" :style="{borderColor: text1 ? 'red' : 'black'}" @click="clickedText('red')">
+            첫번째 글입니다.
+        </p>
+        <p class="text" :style="{borderColor: text2 ? 'green' : 'black'}" @click="clickedText('green')">두번째 글입니다.</p>
+        <p class="text" :style="{borderColor: text3 ? 'blue' : 'black'}" @click="clickedText('blue')">세번째 글입니다.</p>
+    </div> -->
+
+    <!-- <div id="app">
+        <p :class="text1 ? 'text on' : 'text'" @click="clickedText('red')">첫번째 글입니다.</p>
+        <p :class="text2 ? 'text on' : 'text'" @click="clickedText('green')">두번째 글입니다.</p>
+        <p :class="text3 ? 'text on' : 'text'" @click="clickedText('blue')">세번째 글입니다.</p>
+    </div> -->
+
+    <!-- <div id="app">
+        <p class="text" :class="{red: text1}" @click="clickedText('red')">첫번째 글입니다.</p>
+        <p class="text" :class="{green: text2}" @click="clickedText('green')">두번째 글입니다.</p>
+        <p class="text" :class="{blue: text3}" @click="clickedText('blue')">세번째 글입니다.</p>
+    </div> -->
+
+    <div id="app">
+        <p class="text" :class="text1Css" @click="clickedText('red')">첫번째 글입니다.</p>
+        <p class="text" :class="text2Css" @click="clickedText('green')">두번째 글입니다.</p>
+        <p class="text" :class="text3Css" @click="clickedText('blue')">세번째 글입니다.</p>
+    </div>
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    text1: false,
+                    text2: false,
+                    text3: false,
+                }
+            },
+            computed: {
+                text1Css() { return { red: this.text1 } },
+                text2Css() { return { green: this.text2 } },
+                text3Css() { return { blue: this.text3 }; },
+            },
+            methods: {
+                clickedText(color) {
+                    if (color === 'red') {
+                        this.text1 = !this.text1;
+                    } else if (color === 'green') {
+                        this.text2 = !this.text2;
+                    } else if (color === 'blue') {
+                        this.text3 = !this.text3;
+                    }
+                },
+            },
+        }).mount('#app');
+    </script>
+</body>
+
+</html>
