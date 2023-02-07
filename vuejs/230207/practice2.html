@@ -31,6 +31,7 @@
             text-align: left;
             display: block;
             justify-content: space-between;
+            position: relative;
         }
 
         .list>li span {
@@ -42,12 +43,24 @@
             width: 80px;
             display: inline-block;
         }
+
+        .list>li button {
+            border-radius: 5px;
+            background-color: rgb(243, 79, 79);
+            color: white;
+            border-color: rgba(0, 0, 0, 0);
+            padding: 5px 10px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
     </style>
 </head>
 
 <body>
     <div id="app">
-        <h1 class="title">Students List</h1>
+        <h1 ref="title" class="title">Students List</h1>
+        <button @click="change" style="margin-left: 25px; margin-top: 10px;">확인</button>
         <ul class="list">
             <li v-for="student in students">
                 <div><strong>Name</strong>: {{ student.name }} <span>({{ student.username }})</span></div>
@@ -58,6 +71,7 @@
                 </div>
                 <div><strong>E-mail</strong>: <a :href=" 'mailto:' + student.email">{{ student.email }}</a></div>
                 <div><strong>Phone</strong>: {{ student.phone }}</div>
+                <button @click="del(i)">delete</button>
             </li>
         </ul>
 
@@ -75,6 +89,13 @@
                         .then((response) => response.json())
                         .then((data) => this.students = data);
                 },
+                change() {
+                    console.log(this.$refs.title);
+                    this.$refs.title.textContent = 'Changed';
+                },
+                del(idx) {
+                    this.students.splice(idx, 1);
+                }
             },
             created() {
                 this.getStudents();
