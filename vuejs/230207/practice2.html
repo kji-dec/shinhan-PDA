@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice2</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            text-align: left;
+        }
+
+        .title {
+            padding-left: 25px;
+            padding-top: 20px;
+            color: navy;
+        }
+
+        .list>li {
+            background-color: #e4e4e4;
+            margin: 20px;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: left;
+            display: block;
+            justify-content: space-between;
+        }
+
+        .list>li span {
+            color: grey;
+            font-size: small;
+        }
+
+        .list>li strong {
+            width: 80px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1 class="title">Students List</h1>
+        <ul class="list">
+            <li v-for="student in students">
+                <div><strong>Name</strong>: {{ student.name }} <span>({{ student.username }})</span></div>
+                <div><strong>City</strong>: {{ student.address.city }}
+                    <span>({{ student.address.geo.lat }}, {{student.address.geo.lng }})</span>
+                </div>
+                <div><strong>Street</strong>: {{ student.address.street }} <span>({{ student.address.zipcode }})</span>
+                </div>
+                <div><strong>E-mail</strong>: <a :href=" 'mailto:' + student.email">{{ student.email }}</a></div>
+                <div><strong>Phone</strong>: {{ student.phone }}</div>
+            </li>
+        </ul>
+
+    </div>
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    students: [],
+                };
+            },
+            methods: {
+                getStudents() {
+                    fetch('https://jsonplaceholder.typicode.com/users')
+                        .then((response) => response.json())
+                        .then((data) => this.students = data);
+                },
+            },
+            created() {
+                this.getStudents();
+            },
+        }).mount('#app');
+    </script>
+</body>
+
+</html>
