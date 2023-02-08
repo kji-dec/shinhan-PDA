@@ -62,23 +62,21 @@
 <body>
 
     <div id="app">
-        <h1>Sales Product({{ totalCount }}) - {{ totalPrice }}원</h1><br>
+        <h1>Sales Product({{ cart.length }}) - {{ totalPrice }}원</h1>
+        <cart-list :cart-data="cart" @delete-item="deleteWork"></cart-list>
+        <br>
+        <h2>Local Component</h2>
+        <local-list :chips-data="chips" like="10" @add-item="addWork"></local-list>
+        <hr /><br>
         <h2>Global Component</h2>
         <ul class="list">
             <product-list></product-list>
             <product-list></product-list>
             <product-list></product-list>
         </ul>
-        <hr /><br>
-        <h2>Local Component</h2>
-        <local-list
-            :chips-data="chips" 
-            like="10" 
-            @add-item="addWork"
-        ></local-list>
-
     </div>
     <script>
+
         const localList = {
             template: `
                 <ul class="list">
@@ -93,6 +91,9 @@
                     </li>
                 </ul>
             `,
+            emits: [
+                'add-item',
+            ],
             data() {
                 return {
                     k: this.like,
@@ -109,21 +110,30 @@
                 },
                 add(idx) {
                     this.$emit('add-item', idx);
-                }
+                },
             },
         };
 
         const cartList = {
             template: `
-                <div> 구입목록 </div>
+                <h3> 구입목록 </h3>
                 <ul>
-                    <li v-for="(chip, i) in chipsData" :key="chip.title">
-                        {{ chip.title }} {{ chip.price }}원
+                    <li v-for="(chip, i) in cartData" :key="chip.title">
+                        <strong>{{ chip.title }}</strong> <span>{{ chip.price }}원</span>
+                        <button @click="deleteCart(i)">삭제</button>
                     </li>
                 </ul>
             `,
+            emits: [
+                'delete-item',
+            ],
             props: {
-                chipsData: Array,
+                cartData: Array,
+            },
+            methods: {
+                deleteCart(idx) {
+                    this.$emit('delete-item', idx);
+                },
             },
         }
 
@@ -149,23 +159,31 @@
                         price: 3000,
                     },
                     ],
-                    totalPrice: 0,
-                    totalCount: 0,
                     cart: [],
                 }
             },
             components: {
                 localList,
+                cartList,
+            },
+            computed: {
+                totalPrice() {
+                    let result = 0
+                    this.cart.forEach((item) => result += item.price);
+                    return result;
+                }
             },
             methods: {
                 addWork(idx) {
                     const chip = this.chips[idx];
-                    this.totalCount++;
-                    this.totalPrice += chip.price;
                     this.cart.push(chip);
+                },
+                deleteWork(idx) {
+                    this.cart.splice(idx, 1);
                 },
             },
         });
+
         app.component('product-list', {
             template: `
                 <li>
@@ -176,6 +194,7 @@
                 </li>
             `,
         });
+
         app.mount('#app');
     </script>
 </body>
