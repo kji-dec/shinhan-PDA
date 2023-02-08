@@ -11,28 +11,61 @@
 </head>
 
 <body>
-  <div id="app">
-    <div class="movie">
-      <ol class="list">
-        <li v-for="(movie, i) in movies">
-          <a href="">
-            <h4 class="hide">{{ movie.name }}</h4>
-            <span class="hide rate" :class='"rate" + movie.rate[0]'>{{movie.rate[1]}}</span>
-            <strong class="rank">{{ i + 1 }}</strong>
-            <img class="poster" :src="movie.src" :alt="movie.name" />
-            <span class="desc">
-              <i class="star"><b :style="{width: movie.score * 10 + '%'}"></b></i>
-              <em class="score">{{ movie.score }}</em>
-            </span>
-          </a>
-        </li>
-      </ol>
-    </div>
+  <div class="movie" id="app">
+    <ul class="tab" ref="tab" @click.prevent="setContext">
+      <li><a href="">예매순</a></li>
+      <li><a href="">평점순</a></li>
+      <li><a href="">개봉일순</a></li>
+      <li><a href="">주말관객순</a></li>
+      <li><a href="">다운로드순</a></li>
+    </ul>
+    <ol class="list">
+      <li v-for="(movie, i) in movies">
+        <a href="">
+          <h4 class="hide">{{ movie.name }}</h4>
+          <span class="hide rate" :class='"rate" + movie.rate[0]'>{{movie.rate[1]}}</span>
+          <strong class="rank">{{ i + 1 }}</strong>
+          <img class="poster" :src="movie.src" :alt="movie.name" />
+          <!-- score -->
+          <span class="desc" v-if="movContext === '평점순'">
+            <i class="star"><b :style="{width: movie.score * 10 + '%'}"></b></i>
+            <em class="score">{{ movie.score }}</em>
+          </span>
+          <!-- ticketing -->
+          <span class="desc" v-else-if="movContext === '예매순'">
+            <i class="reserv title">예매율</i>
+            <em class="reserv data">{{ movie.ticketing }}%</em>
+          </span>
+          <!-- opendate -->
+          <span class="desc" v-else-if="movContext === '개봉일순'">
+            <em class="opendate">{{ movie.openDate }} <b>개봉</b></em>
+          </span>
+          <!-- week -->
+          <span class="desc" v-else-if="movContext === '주말관객순'">
+            <i class="week title">주말 관객</i>
+            <em class="week data">{{ movie.week }} 명</em>
+          </span>
+          <!-- sale -->
+          <span class="desc" v-else-if="movContext === '다운로드순'">
+            <i class="sale title">판매율</i>
+            <em class="sale data">{{ movie.sale }} %</em>
+          </span>
+        </a>
+      </li>
+    </ol>
   </div>
   <script>
+    const CONTEXT = {
+      "예매순": "ticketing",
+      "평점순": "score",
+      "개봉일순": "openDate",
+      "주말관객순": "week",
+      "다운로드순": "sale",
+    };
     Vue.createApp({
       data() {
         return {
+          movContext: '예매순',
           movies: [
             {
               name: '남애의 여름밤',
@@ -124,23 +157,38 @@
           },
         };
       },
-      // methods: {
-      //   makeRate() {
-      //     this.movies.forEach(movie => {
-      //       movie.rate = [movie.rate, this.rateMatch[movie.rate]]
-      //     });
-      //   },
-      //   sortByScore() {
-      //     this.movies.sort((a, b) => (a.score < b.score) ? 1 : -1);
-      //   },
-      // },
+      watch: {
+        movContext(newCxt, oldCxt) {
+          if(!(newCxt in CONTEXT)){
+            return;
+          }
+          this.setOrder(CONTEXT[newCxt]);
+        },
+      },
+      methods: {
+        setContext() {
+          if(event.target.tagName !== 'A'){
+            return;
+          }
+          this.movContext = event.target.textContent;
+          this.setCrrTab(event.target.parentNode);
+        },
+        setCrrTab(lielem) {
+          this.$refs.tab.querySelectorAll('li').forEach((li) => li.classList.remove('on'));
+          lielem.classList.add('on');
+        },
+        setOrder(sortBy) {
+          this.movies.sort((a, b) => b[sortBy] - a[sortBy]);
+        }
+      },
       created() {
-        // this.makeRate();
-        // this.sortByScore();
         this.movies.forEach(movie => {
           movie.rate = [movie.rate, this.rateMatch[movie.rate]]
         });
-        this.movies.sort((a, b) => b.score - a.score);
+        this.setOrder(CONTEXT[this.movContext]);
+      },
+      mounted() {
+        this.$refs.tab.querySelectorAll('li').forEach((li) => li.firstChild.textContent === this.movContext ? this.setCrrTab(li) : false);
       },
     }).mount('#app');
   </script>
