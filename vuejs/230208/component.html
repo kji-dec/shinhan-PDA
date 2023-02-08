@@ -22,12 +22,14 @@
 
         .list {
             margin: 20px 0;
+            display: flex;
         }
 
         .list>li {
             width: 200px;
             border: 1px solid gray;
             padding: 10px;
+            margin: 5px;
         }
 
         .list>li>* {
@@ -58,9 +60,13 @@
         <h1>Sales Product</h1>
         <ul class="list">
             <product-list></product-list>
+            <product-list></product-list>
+            <product-list></product-list>
         </ul>
         <hr />
         <ul class="list">
+            <local-list></local-list>
+            <local-list></local-list>
             <local-list></local-list>
         </ul>
     </div>
