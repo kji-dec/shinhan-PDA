@@ -55,13 +55,6 @@
     </ol>
   </div>
   <script>
-    const CONTEXT = {
-      "예매순": "ticketing",
-      "평점순": "score",
-      "개봉일순": "openDate",
-      "주말관객순": "week",
-      "다운로드순": "sale",
-    };
     Vue.createApp({
       data() {
         return {
@@ -155,40 +148,50 @@
             '19': '19세이상 관람가',
             '20': '청소년관람불가'
           },
+          context: {
+            "예매순": "ticketing",
+            "평점순": "score",
+            "개봉일순": "openDate",
+            "주말관객순": "week",
+            "다운로드순": "sale",
+          },
         };
       },
       watch: {
         movContext(newCxt, oldCxt) {
-          if(!(newCxt in CONTEXT)){
+          if (!(newCxt in this.context)) {
             return;
           }
-          this.setOrder(CONTEXT[newCxt]);
+          this.setOrder(this.context[newCxt]);
+          this.setCrrTab(newCxt);
         },
       },
       methods: {
         setContext() {
-          if(event.target.tagName !== 'A'){
+          if (event.target.tagName !== 'A') {
             return;
           }
           this.movContext = event.target.textContent;
-          this.setCrrTab(event.target.parentNode);
         },
-        setCrrTab(lielem) {
-          this.$refs.tab.querySelectorAll('li').forEach((li) => li.classList.remove('on'));
-          lielem.classList.add('on');
+        setCrrTab(cxt) {
+          this.$refs.tab.querySelectorAll('li').forEach((li) => {
+            if (li.textContent === cxt) {
+              li.classList.add('on');
+            } else {
+              li.classList.remove('on');
+            }
+          });
         },
         setOrder(sortBy) {
           this.movies.sort((a, b) => b[sortBy] - a[sortBy]);
-        }
+        },
       },
-      created() {
+      mounted() {
+        this.setCrrTab(this.movContext);
         this.movies.forEach(movie => {
           movie.rate = [movie.rate, this.rateMatch[movie.rate]]
         });
-        this.setOrder(CONTEXT[this.movContext]);
-      },
-      mounted() {
-        this.$refs.tab.querySelectorAll('li').forEach((li) => li.firstChild.textContent === this.movContext ? this.setCrrTab(li) : false);
+        this.setOrder(this.context[this.movContext]);
       },
     }).mount('#app');
   </script>
