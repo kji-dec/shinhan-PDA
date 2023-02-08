@@ -50,6 +50,11 @@
         .list>li>span {
             margin-bottom: 10px;
         }
+
+        .list>li>button {
+            background-color: beige;
+            border-color: beige;
+        }
     </style>
     <script src="https://unpkg.com/vue@3"></script>
 </head>
@@ -57,36 +62,108 @@
 <body>
 
     <div id="app">
-        <h1>Sales Product</h1>
+        <h1>Sales Product({{ totalCount }}) - {{ totalPrice }}원</h1><br>
+        <h2>Global Component</h2>
         <ul class="list">
             <product-list></product-list>
             <product-list></product-list>
             <product-list></product-list>
         </ul>
-        <hr />
-        <ul class="list">
-            <local-list></local-list>
-            <local-list></local-list>
-            <local-list></local-list>
-        </ul>
+        <hr /><br>
+        <h2>Local Component</h2>
+        <local-list
+            :chips-data="chips" 
+            like="10" 
+            @add-item="addWork"
+        ></local-list>
+
     </div>
     <script>
         const localList = {
             template: `
-                <li>
-                <img src="images/mango.jpg" />
-                <strong>천연 오가닉 사과칩</strong>
-                <span>깨끗한 재료를 엄선하여 자연을 그대로 담았습니다.</span>
-                <b>2,000원</b>
-                </li>
+                <ul class="list">
+                    <li v-for="(chip, i) in chipsData" :key="chip.title">
+                        <img :src="chip.img" />
+                        <strong>{{ chip.title }}</strong>
+                        <span>{{ chip.desc }}</span>
+                        <b>{{ chip.price }}원</b>
+                        <i>{{ like }}</i>
+                        <i>{{ likeTest() }}</i>
+                        <button @click="add(i)">add item</button>
+                    </li>
+                </ul>
             `,
+            data() {
+                return {
+                    k: this.like,
+                };
+            },
+            props: {
+                chipsData: Array,
+                like: String,
+            },
+            methods: {
+                likeTest() {
+                    // this.like = 20; // 재할당 불가능! 재할당을 원한다면 별도 data를 둬야 함
+                    this.k = 20;
+                },
+                add(idx) {
+                    this.$emit('add-item', idx);
+                }
+            },
+        };
+
+        const cartList = {
+            template: `
+                <div> 구입목록 </div>
+                <ul>
+                    <li v-for="(chip, i) in chipsData" :key="chip.title">
+                        {{ chip.title }} {{ chip.price }}원
+                    </li>
+                </ul>
+            `,
+            props: {
+                chipsData: Array,
+            },
         }
+
         const app = Vue.createApp({
             data() {
-                return {}
+                return {
+                    chips: [{
+                        img: `images/mango.jpg`,
+                        title: `자연그대로 망고칩`,
+                        desc: `단맛이 그대로 살아있는 망고칩입니다.`,
+                        price: 2500,
+                    },
+                    {
+                        img: `images/apple.jpg`,
+                        title: `천연 오가닉 사과칩`,
+                        desc: `깨끗한 재료를 엄선하여 자연을 그대로 담았습니다.`,
+                        price: 2000,
+                    },
+                    {
+                        img: `images/jujube.jpg`,
+                        title: `아이깨끗 대추칩`,
+                        desc: `새콤함이 살아있는 반건조 대추그대로.`,
+                        price: 3000,
+                    },
+                    ],
+                    totalPrice: 0,
+                    totalCount: 0,
+                    cart: [],
+                }
             },
             components: {
                 localList,
+            },
+            methods: {
+                addWork(idx) {
+                    const chip = this.chips[idx];
+                    this.totalCount++;
+                    this.totalPrice += chip.price;
+                    this.cart.push(chip);
+                },
             },
         });
         app.component('product-list', {
